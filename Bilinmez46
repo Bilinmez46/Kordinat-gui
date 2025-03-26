@@ -1,85 +1,106 @@
---[[
-                  Made By Enel-Scripts
-https://v3rmillion.net/member.php?action=profile&uid=605761
---]]
-local coordgui = Instance.new("ScreenGui")
-local main = Instance.new("Frame")
-local title = Instance.new("TextLabel")
-local credit = Instance.new("TextLabel")
-local grab = Instance.new("TextButton")
-local copy = Instance.new("TextButton")
-local cords = Instance.new("TextLabel")
---Properties:
-coordgui.Name = "coordgui"
-coordgui.Parent = game.CoreGui
+local player = game.Players.LocalPlayer  
+local gui = Instance.new("ScreenGui")  
+gui.Parent = player:WaitForChild("PlayerGui")  
+gui.Name = "CustomGUI"  
+gui.ResetOnSpawn = false  
 
-main.Name = "main"
-main.Parent = coordgui
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.Position = UDim2.new(0.352638364, 0, 0.405797124, 0)
-main.Size = UDim2.new(0, 228, 0, 142)
-main.Style = Enum.FrameStyle.DropShadow
-main.Active = true
-main.Draggable = true
+-- **GUI Ana Çerçeve**  
+local frame = Instance.new("Frame")  
+frame.Size = UDim2.new(0, 250, 0, 150)  
+frame.Position = UDim2.new(0.5, -125, 0.5, -75)  
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  
+frame.BorderSizePixel = 0  
+frame.Parent = gui  
+frame.Active = true  
+frame.Draggable = true  
 
-title.Name = "title"
-title.Parent = main
-title.BackgroundColor3 = Color3.new(0, 0, 0)
-title.Position = UDim2.new(-0.0517418832, 0, -0.054933358, 0)
-title.Size = UDim2.new(0, 235, 0, 19)
-title.Font = Enum.Font.SciFi
-title.Text = "Coordinates Grabber Gui"
-title.TextColor3 = Color3.new(1, 1, 1)
-title.TextSize = 14
+-- **Oval Yapma**  
+local cornerRadius = Instance.new("UICorner")  
+cornerRadius.CornerRadius = UDim.new(0, 15)  
+cornerRadius.Parent = frame  
 
-credit.Name = "credit"
-credit.Parent = main
-credit.BackgroundColor3 = Color3.new(0, 0, 0)
-credit.Position = UDim2.new(-0.0517418832, 0, 0.930982113, 0)
-credit.Size = UDim2.new(0, 235, 0, 19)
-credit.Font = Enum.Font.SciFi
-credit.Text = "Made By @Enel-scripts"
-credit.TextColor3 = Color3.new(1, 1, 1)
-credit.TextSize = 14
+-- **Başlık**  
+local title = Instance.new("TextLabel")  
+title.Text = "Koordinat Sistemi"  
+title.Size = UDim2.new(1, 0, 0, 30)  
+title.BackgroundTransparency = 1  
+title.TextColor3 = Color3.fromRGB(255, 255, 255)  
+title.TextSize = 18  
+title.Font = Enum.Font.SourceSansBold  
+title.Parent = frame  
 
-grab.Name = "grab"
-grab.Parent = main
-grab.BackgroundColor3 = Color3.new(0, 0, 0)
-grab.Position = UDim2.new(0.0381504558, 0, 0.600263834, 0)
-grab.Size = UDim2.new(0, 128, 0, 31)
-grab.Font = Enum.Font.SciFi
-grab.Text = "Grab Coordinates"
-grab.TextColor3 = Color3.new(1, 1, 1)
-grab.TextSize = 14
+-- **Koordinat Görüntüleme**  
+local coordLabel = Instance.new("TextLabel")  
+coordLabel.Text = "Koordinatlar: Bekleniyor..."  
+coordLabel.Size = UDim2.new(1, -20, 0, 30)  
+coordLabel.Position = UDim2.new(0, 10, 0, 40)  
+coordLabel.BackgroundTransparency = 1  
+coordLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  
+coordLabel.TextSize = 14  
+coordLabel.TextWrapped = true  
+coordLabel.Font = Enum.Font.SourceSans  
+coordLabel.Parent = frame  
 
-copy.Name = "copy"
-copy.Parent = main
-copy.BackgroundColor3 = Color3.new(0, 0, 0)
-copy.Position = UDim2.new(0.697107434, 0, 0.595215261, 0)
-copy.Size = UDim2.new(0, 52, 0, 32)
-copy.Font = Enum.Font.SciFi
-copy.Text = "Copy"
-copy.TextColor3 = Color3.new(1, 1, 1)
-copy.TextSize = 14
+-- **Koordinat Alma Butonu**  
+local getCoordButton = Instance.new("TextButton")  
+getCoordButton.Size = UDim2.new(0, 100, 0, 30)  
+getCoordButton.Position = UDim2.new(0.1, 0, 0.6, 0)  
+getCoordButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)  
+getCoordButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+getCoordButton.Text = "Koordinat Al"  
+getCoordButton.TextSize = 14  
+getCoordButton.Parent = frame  
 
-cords.Name = "cords"
-cords.Parent = main
-cords.BackgroundColor3 = Color3.new(0, 0, 0)
-cords.Position = UDim2.new(0.0420129336, 0, 0.199266031, 0)
-cords.Size = UDim2.new(0, 194, 0, 37)
-cords.Font = Enum.Font.SciFi
-cords.Text = ""
-cords.TextColor3 = Color3.new(1, 1, 1)
-cords.TextSize = 14
--- Scripts:
-game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+local buttonCorner1 = Instance.new("UICorner")  
+buttonCorner1.CornerRadius = UDim.new(0, 10)  
+buttonCorner1.Parent = getCoordButton  
 
-grab.MouseButton1Down:Connect(function()
-    cords.Text = tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
-    wait(0.25)
-    print(''..tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
-end)
+-- **Kopyalama Butonu**  
+local copyButton = Instance.new("TextButton")  
+copyButton.Size = UDim2.new(0, 100, 0, 30)  
+copyButton.Position = UDim2.new(0.55, 0, 0.6, 0)  
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 100)  
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+copyButton.Text = "Kopyala"  
+copyButton.TextSize = 14  
+copyButton.Parent = frame  
 
-copy.MouseButton1Down:Connect(function()
-    setclipboard(""..cords.Text)
+local buttonCorner2 = Instance.new("UICorner")  
+buttonCorner2.CornerRadius = UDim.new(0, 10)  
+buttonCorner2.Parent = copyButton  
+
+-- **Kapatma Butonu**  
+local closeButton = Instance.new("TextButton")  
+closeButton.Size = UDim2.new(0, 30, 0, 30)  
+closeButton.Position = UDim2.new(1, -35, 0, 5)  
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+closeButton.Text = "X"  
+closeButton.TextSize = 18  
+closeButton.Parent = frame  
+
+local closeCorner = Instance.new("UICorner")  
+closeCorner.CornerRadius = UDim.new(0, 10)  
+closeCorner.Parent = closeButton  
+
+-- **Koordinat Alma Fonksiyonu**  
+local lastCoords = ""  
+getCoordButton.MouseButton1Click:Connect(function()  
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then  
+        local pos = player.Character.HumanoidRootPart.Position  
+        lastCoords = string.format("%.6f, %.6f, %.6f", pos.X, pos.Y, pos.Z)  
+        coordLabel.Text = "Koordinatlar: " .. lastCoords  
+    end  
+end)  
+
+-- **Kopyalama Fonksiyonu**  
+copyButton.MouseButton1Click:Connect(function()  
+    if lastCoords ~= "" then  
+        setclipboard(lastCoords)  -- **Koordinatı kopyalar**  
+    end  
+end)  
+
+-- **Kapatma İşlevi**  
+closeButton.MouseButton1Click:Connect(function()  
+    gui:Destroy()  
 end)
