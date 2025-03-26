@@ -1,1 +1,106 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Bilinmez46/Kordinat-gui/refs/heads/main/Bilinmez46", true))()
+local player = game.Players.LocalPlayer  
+local gui = Instance.new("ScreenGui")  
+gui.Parent = player:WaitForChild("PlayerGui")  
+gui.Name = "CustomGUI"  
+gui.ResetOnSpawn = false  
+
+-- **GUI Ana Çerçeve**  
+local frame = Instance.new("Frame")  
+frame.Size = UDim2.new(0, 250, 0, 150)  
+frame.Position = UDim2.new(0.5, -125, 0.5, -75)  
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  
+frame.BorderSizePixel = 0  
+frame.Parent = gui  
+frame.Active = true  
+frame.Draggable = true  
+
+-- **Oval Yapma**  
+local cornerRadius = Instance.new("UICorner")  
+cornerRadius.CornerRadius = UDim.new(0, 15)  
+cornerRadius.Parent = frame  
+
+-- **Başlık**  
+local title = Instance.new("TextLabel")  
+title.Text = "Koordinat Sistemi"  
+title.Size = UDim2.new(1, 0, 0, 30)  
+title.BackgroundTransparency = 1  
+title.TextColor3 = Color3.fromRGB(255, 255, 255)  
+title.TextSize = 18  
+title.Font = Enum.Font.SourceSansBold  
+title.Parent = frame  
+
+-- **Koordinat Görüntüleme**  
+local coordLabel = Instance.new("TextLabel")  
+coordLabel.Text = "Koordinatlar: Bekleniyor..."  
+coordLabel.Size = UDim2.new(1, -20, 0, 30)  
+coordLabel.Position = UDim2.new(0, 10, 0, 40)  
+coordLabel.BackgroundTransparency = 1  
+coordLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  
+coordLabel.TextSize = 14  
+coordLabel.TextWrapped = true  
+coordLabel.Font = Enum.Font.SourceSans  
+coordLabel.Parent = frame  
+
+-- **Koordinat Alma Butonu**  
+local getCoordButton = Instance.new("TextButton")  
+getCoordButton.Size = UDim2.new(0, 100, 0, 30)  
+getCoordButton.Position = UDim2.new(0.1, 0, 0.6, 0)  
+getCoordButton.BackgroundColor3 = Color3.fromRGB(0, 170, 255)  
+getCoordButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+getCoordButton.Text = "Koordinat Al"  
+getCoordButton.TextSize = 14  
+getCoordButton.Parent = frame  
+
+local buttonCorner1 = Instance.new("UICorner")  
+buttonCorner1.CornerRadius = UDim.new(0, 10)  
+buttonCorner1.Parent = getCoordButton  
+
+-- **Kopyalama Butonu**  
+local copyButton = Instance.new("TextButton")  
+copyButton.Size = UDim2.new(0, 100, 0, 30)  
+copyButton.Position = UDim2.new(0.55, 0, 0.6, 0)  
+copyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 100)  
+copyButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+copyButton.Text = "Kopyala"  
+copyButton.TextSize = 14  
+copyButton.Parent = frame  
+
+local buttonCorner2 = Instance.new("UICorner")  
+buttonCorner2.CornerRadius = UDim.new(0, 10)  
+buttonCorner2.Parent = copyButton  
+
+-- **Kapatma Butonu**  
+local closeButton = Instance.new("TextButton")  
+closeButton.Size = UDim2.new(0, 30, 0, 30)  
+closeButton.Position = UDim2.new(1, -35, 0, 5)  
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)  
+closeButton.Text = "X"  
+closeButton.TextSize = 18  
+closeButton.Parent = frame  
+
+local closeCorner = Instance.new("UICorner")  
+closeCorner.CornerRadius = UDim.new(0, 10)  
+closeCorner.Parent = closeButton  
+
+-- **Koordinat Alma Fonksiyonu**  
+local lastCoords = ""  
+getCoordButton.MouseButton1Click:Connect(function()  
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then  
+        local pos = player.Character.HumanoidRootPart.Position  
+        lastCoords = string.format("%.6f, %.6f, %.6f", pos.X, pos.Y, pos.Z)  
+        coordLabel.Text = "Koordinatlar: " .. lastCoords  
+    end  
+end)  
+
+-- **Kopyalama Fonksiyonu**  
+copyButton.MouseButton1Click:Connect(function()  
+    if lastCoords ~= "" then  
+        setclipboard(lastCoords)  -- **Koordinatı kopyalar**  
+    end  
+end)  
+
+-- **Kapatma İşlevi**  
+closeButton.MouseButton1Click:Connect(function()  
+    gui:Destroy()  
+end)
